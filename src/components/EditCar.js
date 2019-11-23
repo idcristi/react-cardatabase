@@ -3,6 +3,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import Button from '@material-ui/core/Button'
 
 const EditCar = props => {
   const [open, setOpen] = useState(false)
@@ -15,9 +16,15 @@ const EditCar = props => {
   })
 
   const handleClickOpen = () => {
-    setCar({brand: props.car.brand, model: props.car.model, color: props.car.color,
-      year: props.car.year, fuel: props.car.fuel, price: props.car.price })
-    setOpen(true);
+    setCar({
+      brand: props.car.brand,
+      model: props.car.model,
+      color: props.car.color,
+      year: props.car.year,
+      fuel: props.car.fuel,
+      price: props.car.price,
+    })
+    setOpen(true)
   }
 
   const handleClose = () => {
@@ -30,15 +37,15 @@ const EditCar = props => {
 
   // Update car and close modal form
   const handleSave = () => {
-   props.updateCar(car, props.link);
-    handleClose();
+    props.updateCar(car, props.link)
+    handleClose()
   }
-
-
 
   return (
     <div>
-      <button onClick={handleClickOpen}>Edit</button>
+      <Button color="primary" size="small" onClick={handleClickOpen}>
+        Edit
+      </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit car</DialogTitle>
         <DialogContent>
@@ -84,8 +91,12 @@ const EditCar = props => {
           <br />
         </DialogContent>
         <DialogActions>
-          <button onClick={handleClose}>Cancel</button>
-          <button onClick={handleSave}>Save</button>
+          <Button color="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button color="primary" onClick={handleSave}>
+            Save
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
