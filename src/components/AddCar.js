@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -27,6 +27,11 @@ const AddCar = props => {
 
   const handleChange = event => {
     setCar({...car, [event.target.name]: event.target.value})
+  }
+
+  const handleSave = () => {
+    props.addCar(car)
+    handleClose()
   }
 
   return (
@@ -80,7 +85,7 @@ const AddCar = props => {
         </DialogContent>
         <DialogActions>
           <button onClick={handleClose}>Cancel</button>
-          <button onClick={handleClose}>Save</button>
+          <button onClick={handleSave}>Save</button>
         </DialogActions>
       </Dialog>
     </div>

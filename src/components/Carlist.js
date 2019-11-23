@@ -4,6 +4,7 @@ import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 import {ToastContainer, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import AddCar from './AddCar'
 
 class Carlist extends Component {
   constructor(props) {
@@ -42,6 +43,18 @@ class Carlist extends Component {
           console.error(err)
         })
     }
+  }
+
+  addCar(car) {
+    fetch(SERVER_URL + 'api/cars', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(car),
+    })
+      .then(res => this.fetchCars())
+      .catch(err => console.error(err))
   }
 
   render() {
@@ -86,10 +99,12 @@ class Carlist extends Component {
 
     return (
       <div className="App">
+        <AddCar addCar={this.addCar} fetchCars={this.fetchCars} />
         <ReactTable
           data={this.state.cars}
           columns={columns}
           filterable={true}
+          pageSize={10}
         />
         <ToastContainer autoClose={1500} />
       </div>
