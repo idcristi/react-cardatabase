@@ -15,7 +15,9 @@ const EditCar = props => {
   })
 
   const handleClickOpen = () => {
-    setOpen(true)
+    setCar({brand: props.car.brand, model: props.car.model, color: props.car.color,
+      year: props.car.year, fuel: props.car.fuel, price: props.car.price })
+    setOpen(true);
   }
 
   const handleClose = () => {
@@ -27,7 +29,12 @@ const EditCar = props => {
   }
 
   // Update car and close modal form
-  const handleSave = () => {}
+  const handleSave = () => {
+   props.updateCar(car, props.link);
+    handleClose();
+  }
+
+
 
   return (
     <div>
