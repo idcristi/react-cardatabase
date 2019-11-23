@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import {SERVER_URL} from '../constants.js'
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
+import {ToastContainer, toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 class Carlist extends Component {
   constructor(props) {
@@ -10,6 +12,10 @@ class Carlist extends Component {
   }
 
   componentDidMount() {
+    this.fetchCars()
+  }
+
+  fetchCars = () => {
     fetch(SERVER_URL + 'api/cars')
       .then(response => response.json())
       .then(responseData => {
@@ -18,6 +24,24 @@ class Carlist extends Component {
         })
       })
       .catch(err => console.error(err))
+  }
+
+  onDelClick = link => {
+    if (window.confirm('Are you sure to delete?')) {
+      fetch(link, {method: 'DELETE'})
+        .then(res => {
+          toast.success('Car deleted', {
+            position: toast.POSITION.BOTTOM_LEFT,
+          })
+          this.fetchCars()
+        })
+        .catch(err => {
+          toast.error('Error when deleting', {
+            position: toast.POSITION.BOTTOM_LEFT,
+          })
+          console.error(err)
+        })
+    }
   }
 
   render() {
@@ -42,6 +66,22 @@ class Carlist extends Component {
         Header: 'Price €',
         accessor: 'price',
       },
+      {
+        id: 'delbutton',
+        sortable: false,
+        filterable: false,
+        width: 100,
+        accessor: '_links.self.href',
+        Cell: ({value}) => (
+          <button
+            onClick={() => {
+              this.onDelClick(value)
+            }}
+          >
+            Delete
+          </button>
+        ),
+      },
     ]
 
     return (
@@ -51,6 +91,7 @@ class Carlist extends Component {
           columns={columns}
           filterable={true}
         />
+        <ToastContainer autoClose={1500} />
       </div>
     )
   }
